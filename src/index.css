@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-family: "Cabin", sans-serif;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  z-index: -1;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eaeaea9c;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9797979c;
+  border-radius: 3px;
+}
+:where(.css-dev-only-do-not-override-txh9fw).ant-btn-primary {
+  color: #fff;
+  background-color: #5648a5 !important;
+  box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+}
+
+.ant-btn-primary:hover {
+  color: #fff;
+  background-color: #48399f !important;
+  box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+}
+:where(.css-dev-only-do-not-override-txh9fw).ant-table-wrapper
+  .ant-table-pagination-right {
+  justify-content: center;
+}
+.loading {
+  display: flex;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+}
+.ant-avatar img {
+  object-fit: fill;
+}

@@ -1,0 +1,130 @@
+.table-collection {
+    border: 1px solid  rgb(230, 230, 230) !important;
+    border-radius: 8px;
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        z-index: -1;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background-color: #eaeaea9c;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background-color: #9797979c;
+        border-radius: 3px;
+      }
+      
+    
+}
+.imageproduct-uploader{
+    border: 1px solid #cdcdcd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 102px;
+    border-radius: 26px;
+    overflow: hidden;
+    background-color: #f4f4f4fd;
+    cursor: pointer;
+ 
+     img {
+        border-radius: 26px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+  }
+  
+  }
+.column-name {
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left !important;
+}
+.column-imageUrl1 img {
+    border-radius: 26px;
+}
+.column-imageUrl2 img {
+    border-radius: 26px;
+}
+.ant-image-mask {
+    border-radius: 26px !important;
+}
+.column-description {
+    font-size: 14px;
+    color: rgb(68, 68, 68);
+}
+.column-priceSale {font-weight: 500;
+    font-size: 14px;
+    color: rgb(68, 68, 68);
+    text-align: center;
+}
+.column-priceMain {
+    font-weight: 500;
+    font-size: 14px;
+    color: rgb(68, 68, 68);
+    text-align: center;
+}
+.column-createdDate {
+    font-weight: 500;
+    font-size: 13px;
+    color: rgb(127, 126, 126);
+    text-align: center;
+}
+.column-action {
+    text-align: center;
+        span {
+            cursor: pointer;
+            width:  30px;
+            padding-top: 3px;
+           justify-content: center;
+           align-items: center;
+            display: flex;
+            height:  30px;
+            border-radius: 99%;
+            background-color: transparent;
+            
+        }span:hover {
+         background-color: rgb(226, 226, 226);
+        }
+}
+.ant-modal {
+    width: 1000px !important;
+}
+.btn-create-product {
+    svg {
+        margin-top: -5px;
+    }
+}
+.btn-delete {
+    width: 35px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dc362e;
+    border-radius: 10px;
+    padding-top: 5px;
+ 
+    color: #dc362e;
+    cursor: pointer;
+   
+    .icon-delete {
+        padding-top: 3px;
+        font-size: 18px !important;
+    }
+    &:hover {
+        background-color: #dc362e !important;
+        color: #ffffff !important;
+        border: 1px solid #dc362e  !important;
+    }
+}
+.disabled {
+    opacity: 0.5;
+   
+  
+ }
