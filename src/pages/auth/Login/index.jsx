@@ -1,12 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Button, Checkbox, Col, Form, Input, Row, message } from "antd";
-import axios from "axios";
+import { FetchApi } from "../../../api/FetchAPI";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
 import logo from "../../../../public/logo.svg";
 import "./Login.scss";
-const URL_API = import.meta.env.VITE_API_URL;
 
 // eslint-disable-next-line react/prop-types
 function Login({ onLoginSuccess }) {
@@ -14,51 +13,56 @@ function Login({ onLoginSuccess }) {
   const [successMessage, setSuccessMessage] = useState("");
   const [data, setData] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
-  // const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
-    const postData = async () => {
-      setSubmitLoading(true);
-      try {
-        const response = await axios.post(`${URL_API}/login`, {
-          email: data?.email,
-          password: data?.password,
-        });
+    Login(data);
+  }, [data, isSubmitting]);
 
-        // handle successful response
+  const Login = async (data) => {
+    if (data && data.email && data.password) {
+      const value = {
+        email: data?.email,
+        password: data?.password,
+      };
 
-        localStorage.setItem("accessToken", response.data.access_token);
-        localStorage.setItem("current_user", response.data.current_user);
-        onLoginSuccess(response.data.access_token);
-        setErrorMessage("");
-        setSuccessMessage("Successfully");
-        setIsSubmitting(false);
-        if (localStorage.getItem("accessToken")) {
-          setShouldRedirect(true);
+      const result = await FetchApi.login(value);
+      if (result && result.statusCode !== 401 && result.code !== 500) {
+        if (result.success == false) {
+          setSubmitLoading(false);
+          setSuccessMessage("");
+          setErrorMessage(result.message);
+          setIsSubmitting(false);
+        } else {
+          localStorage.setItem("accessToken", result.access_token);
+          localStorage.setItem("current_user", result.current_user);
+          localStorage.setItem("store_name", result.store_name);
+          localStorage.setItem("user_id", result.user_id);
+          onLoginSuccess(result.access_token);
+          setErrorMessage("");
+          setSuccessMessage("Successfully");
+          setIsSubmitting(false);
+          if (localStorage.getItem("accessToken")) {
+            setShouldRedirect(true);
+          }
+          setSubmitLoading(false);
         }
-        setSubmitLoading(false);
-      } catch (error) {
-        // handle error response
+      } else if (result.statusCode === 401 || result.code === 500) {
         setSubmitLoading(false);
         setSuccessMessage("");
-
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(result.message);
 
         setIsSubmitting(false);
       }
-    };
-
-    if (isSubmitting) {
-      postData();
     }
-  }, [data, isSubmitting, onLoginSuccess]);
+  };
 
   const onFinish = (values) => {
     setSuccessMessage("");
     setErrorMessage("");
     setData(values);
+    setSubmitLoading(true);
     setIsSubmitting(true);
   };
 
@@ -82,7 +86,7 @@ function Login({ onLoginSuccess }) {
             window.history.pushState({}, null, "/admin/dashboard");
             window.location.reload();
             resolve();
-          }, 1000);
+          }, 500);
         });
       }
     };

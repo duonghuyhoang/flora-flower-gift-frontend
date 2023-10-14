@@ -1,5 +1,5 @@
 import "./App.css";
-import axios from "axios";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // import router from "./routes";
 // import PrivateRoute from "./components/PrivateRoute";
@@ -7,8 +7,8 @@ import GuestLayout from "./components/GuestLayout";
 import Dashboard from "./pages/Admin/Dashboard";
 import Collections from "./pages/Admin/Collections";
 import Profile from "./pages/Admin/Profile";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Signup";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Signup";
 // import DefaultLayout from "./components/AdminLayout";
 import Home from "./pages/Store/Home";
 import { useEffect, useState } from "react";
@@ -19,39 +19,15 @@ import Contact from "./pages/Store/Contact";
 import Catalog from "./pages/Store/Catalog";
 import DetailProduct from "./pages/Store/DetailProduct";
 import Cart from "./pages/Store/Cart";
-const URL_API = import.meta.env.VITE_API_URL;
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("isAuthenticated") === "true"
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const accessToken = localStorage.getItem("accessToken");
 
   const handleLoginSuccess = (accessToken) => {
     // setIsAuthenticated(true);
-    if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
-
-      const fetchData = async () => {
-        try {
-          // eslint-disable-next-line no-unused-vars
-          const response = await axios.get(`${URL_API}/me`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-          // handle successful response
-          localStorage.setItem("id_user", response.data.id_user);
-          localStorage.setItem("store_name", response.data.storename);
-
-          setIsAuthenticated(true);
-        } catch (error) {
-          // handle error response
-          setIsAuthenticated(false);
-        }
-      };
-      localStorage.setItem("isAuthenticated", isAuthenticated);
-      fetchData();
+    if (accessToken == undefined && accessToken === null) {
+      setIsAuthenticated(false);
     }
   };
   useEffect(() => {

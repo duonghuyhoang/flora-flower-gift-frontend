@@ -1,10 +1,9 @@
 .footer {
-    height: 530px;
-    width: 100%;
-    background-color: #5a4e9f;
-    text-align: center;
-    padding: 0 40px;
-  }
+  height: 530px;
+  width: 100%;
+  background-color: #5a4e9f;
+  text-align: center;
+  padding: 0 40px;
   .footer-content {
     display: flex;
     margin-left: 200px;
@@ -12,51 +11,41 @@
     flex-wrap: wrap;
     margin-top: 60px;
     gap: 40px;
-  }
-  .footer-content-1,
-  .footer-content-2 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .footer-content-3 {
-    width: 200px;
-    height: 139px;
-    margin-left: 80px;
-    background-color: #5a4e9f;
-    background-image: url("../../assets/Migoda_1_1.png");
-    background-repeat: no-repeat;
-    background-size: 200px 139px;
-  }
-  .footer-content-1-title,
-  .footer-content-2-title {
-    font-size: 20px;
-    margin-bottom: 20px;
-    font-weight: 700;
-    color: #eff0f5;
-  }
-  .footer-content-1-detail,
-  .footer-content-2-detail {
-    width: 400px;
-    font-family: "Questrial", sans-serif;
-    line-height: 30px;
-    letter-spacing: 0.05em;
-    font-size: 17px;
-    text-align: start;
-    color: #eff0f5bf;
-  }
-  .footer-content-2-detail {
-    width: 350px;
-  }
-  .icon-social {
-    height: 1.8rem;
-    width: 1.8rem;
-    color: #ffffff;
-  }
-  .icon-social:hover {
-    transform: scale(1.05);
-    transition-duration: 150ms;
-    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    .footer-content-1,
+    .footer-content-2 {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      .footer-content-1-title,
+      .footer-content-2-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: #eff0f5;
+      }
+      .footer-content-1-detail,
+      .footer-content-2-detail {
+        width: 400px;
+        font-family: "Questrial", sans-serif;
+        line-height: 30px;
+        letter-spacing: 0.05em;
+        font-size: 17px;
+        text-align: start;
+        color: #eff0f5bf;
+      }
+      .footer-content-2-detail {
+        width: 350px;
+      }
+    }
+    .footer-content-3 {
+      width: 200px;
+      height: 139px;
+      margin-left: 80px;
+      background-color: #5a4e9f;
+      background-image: url("../../assets/Migoda_1_1.png");
+      background-repeat: no-repeat;
+      background-size: 200px 139px;
+    }
   }
   .icon-socail-footer {
     margin-left: 30px;
@@ -65,24 +54,46 @@
     justify-content: center;
     align-items: center;
     gap: 30px;
+    .icon-social {
+      height: 1.8rem;
+      width: 1.8rem;
+      color: #ffffff;
+      &:hover {
+        transform: scale(1.05);
+        transition-duration: 150ms;
+        transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+      }
+    }
+    .twitter {
+      padding-top: 3px;
+    }
+    .tiktok {
+      padding-top: 4px;
+    }
+    .youtube {
+      padding-top: 3px;
+    }
   }
+
   .copyright {
     margin-top: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
+    span {
+      color: #eff0f5bf !important;
+      font-size: 12px;
+    }
+    .copyrigth-caption-link {
+      color: #eff0f5bf !important;
+      font-size: 12px;
+    }
+    .copyrigth-caption-link:hover {
+      text-decoration: underline !important;
+    }
   }
-  .copyright,
-  .copyrigth-caption-link {
-    color: #eff0f5bf !important;
-    font-size: 12px;
-  }
-  .copyrigth-caption-link:hover {
-   
-    text-decoration: underline !important;
-  }
-  
+
   @media screen and (max-width: 1570px) {
     .footer {
       height: 100%;
@@ -108,41 +119,23 @@
     .footer-content {
       margin-left: 70px;
     }
-    
-  } 
+  }
   @media screen and (max-width: 550px) {
     .footer-content {
       margin-left: 00px;
     }
-    
-  } 
+  }
   @media screen and (max-width: 440px) {
-   
-    .footer-content-1-detail {  
+    .footer-content-1-detail {
       width: 370px;
     }
-    
-  } 
+  }
   @media screen and (max-width: 400px) {
-   
-    .footer-content-1-detail {  
+    .footer-content-1-detail {
       width: 320px;
     }
     .footer-content-2-detail {
       width: 320px;
     }
-   
-    
   }
-
-  
-  .twitter {
-    padding-top: 3px;
-  }
-  .tiktok {
-    padding-top: 4px;
-  }
-  .youtube {
-    padding-top: 3px;
-  }
-  
+}

@@ -1,11 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Button, Col, Form, Input, Row, message } from "antd";
-import axios from "axios";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { FetchApi } from "../../../api/FetchAPI";
+import { LockOutlined, UserOutlined, ShopOutlined } from "@ant-design/icons";
 import { Link, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../../../../public/logo.svg";
-const URL_API = import.meta.env.VITE_API_URL;
 
 function Register() {
   const [data, setData] = useState("");
@@ -16,35 +15,34 @@ function Register() {
   const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
-    const postData = async () => {
-      setSubmitLoading(true);
-      try {
-        const response = await axios.post(`${URL_API}/register`, data);
+    Register(data);
+  }, [data, isSubmitting]);
 
-        // handle successful response
+  const Register = async (data) => {
+    if (data) {
+      const result = await FetchApi.register(data);
+
+      if (result && result.statusCode !== 401) {
         setErrorMessage("");
-        setSuccessMessage(response.data.message);
+        setSuccessMessage(result.message);
         setIsSubmitting(false);
         setShouldRedirect(true);
         setSubmitLoading(false);
-      } catch (error) {
-        // handle error response
+      } else if (result.statusCode === 401) {
         setSuccessMessage("");
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(result.message);
         setIsSubmitting(false);
         setSubmitLoading(false);
       }
-    };
-
-    if (isSubmitting) {
-      postData();
     }
-  }, [data, isSubmitting]);
+  };
+
   const onFinish = (values) => {
     setSuccessMessage("");
     setErrorMessage("");
     setData(values);
     setIsSubmitting(true);
+    setSubmitLoading(true);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -149,6 +147,22 @@ function Register() {
             size='large'
             placeholder='Username'
             prefix={<UserOutlined />}
+            className='text-sm'
+          />
+        </Form.Item>
+        <Form.Item
+          name='storename'
+          rules={[
+            {
+              required: true,
+              message: "Please input your store name!",
+            },
+          ]}
+        >
+          <Input
+            size='large'
+            placeholder='Store name'
+            prefix={<ShopOutlined />}
             className='text-sm'
           />
         </Form.Item>

@@ -1,21 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import DefaultLayoutStore from "../DefaultLayoutStore";
 import Pickup from "../../../components/Pickup";
-import axios from "axios";
 import {
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,
 } from "../../../features/cart/cartSlice";
-
+import { FetchApi } from "../../../api/FetchAPI";
 import "./Cart.scss";
 import { useNavigate } from "react-router-dom";
 import ProductCards from "../../../components/ProductCards";
 import { useEffect, useState } from "react";
 import { Spin, notification } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-
-const URL_API = import.meta.env.VITE_API_URL;
 
 function Cart() {
   const [loading, setLoading] = useState(true);
@@ -28,21 +25,20 @@ function Cart() {
 
   useEffect(() => {
     if ((store_name, page)) {
-      fetchData(store_name, page);
+      getProducts(store_name, page);
     }
   }, []);
 
-  const fetchData = async (store_name, page) => {
-    try {
-      const response = await axios.get(
-        `${URL_API}/products-store?store_name=${store_name}&page=${page}`
-      );
-      setData(response.data.data);
-
-      setLoading(false);
-    } catch (error) {
+  const getProducts = async (store_name, page) => {
+    if ((store_name, page)) {
+      const result = await FetchApi.getProductsByStore(store_name, page);
+      if (result) {
+        setData(result.data);
+        setLoading(false);
+      }
+    } else {
       notification.error({
-        message: error,
+        message: "Error fetching data",
         placement: "topRight",
       });
     }

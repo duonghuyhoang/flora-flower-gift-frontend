@@ -1,10 +1,9 @@
 import DefaultLayoutStore from "../DefaultLayoutStore";
 import "./Home.scss";
 import { useDispatch } from "react-redux";
-import axios from "axios";
+import { FetchApi } from "../../../api/FetchAPI";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-const URL_API = import.meta.env.VITE_API_URL;
 import { addToCart } from "../../../features/cart/cartSlice";
 import Pickup from "./../../../components/Pickup";
 import Sale from "./../../../components/Sale";
@@ -12,7 +11,6 @@ import ProductCards from "./../../../components/ProductCards";
 import AddToCart from "./../../../components/ButtonAddToCart";
 import { Spin, notification } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-const store_name = localStorage.getItem("store_name");
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -20,34 +18,33 @@ function Home() {
   const store_name = localStorage.getItem("store_name");
   const [data, setData] = useState([]);
   const page = 1;
+
+  useEffect(() => {
+    if ((store_name, page)) {
+      getProducts(store_name, page);
+    }
+  }, []);
+
+  const getProducts = async (store_name, page) => {
+    if ((store_name, page)) {
+      const result = await FetchApi.getProductsByStore(store_name, page);
+      if (result) {
+        setData(result.data);
+        setLoading(false);
+      }
+    } else {
+      notification.error({
+        message: "Error fetching data",
+        placement: "topRight",
+      });
+    }
+  };
   const handleIncrement = () => {
     setQuantity((prevQuantity) => {
       const newQuantity = prevQuantity + 1;
       // onQuantityChange(newQuantity);
       return newQuantity;
     });
-  };
-
-  useEffect(() => {
-    if ((store_name, page)) {
-      fetchData(store_name, page);
-    }
-  }, []);
-
-  const fetchData = async (store_name, page) => {
-    try {
-      const response = await axios.get(
-        `${URL_API}/products-store?store_name=${store_name}&page=${page}`
-      );
-      setData(response.data.data);
-
-      setLoading(false);
-    } catch (error) {
-      notification.error({
-        message: error,
-        placement: "topRight",
-      });
-    }
   };
 
   const handleDecrement = () => {

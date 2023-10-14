@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import DefaultLayoutStore from "../DefaultLayoutStore";
 import "./Catalog.scss";
-import axios from "axios";
-
-const URL_API = import.meta.env.VITE_API_URL;
+import { FetchApi } from "../../../api/FetchAPI";
 import ProductCards from "../../../components/ProductCards";
 import { Pagination, Spin, notification } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -19,26 +17,25 @@ function Catalog() {
 
   useEffect(() => {
     if ((store_name, page)) {
-      fetchData(store_name, page);
+      getProducts(store_name, page);
     }
   }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [data]);
 
-  const fetchData = async (store_name, page) => {
+  const getProducts = async (store_name, page) => {
     setCurrent(page);
-    try {
-      const response = await axios.get(
-        `${URL_API}/products-store?store_name=${store_name}&page=${page}`
-      );
-      setData(response.data.data);
-
-      setTotalPages(response?.data.totalPages * 10);
-      setLoading(false);
-    } catch (error) {
+    if ((store_name, page)) {
+      const result = await FetchApi.getProductsByStore(store_name, page);
+      if (result) {
+        setData(result.data);
+        setTotalPages(result.totalPages * 10);
+        setLoading(false);
+      }
+    } else {
       notification.error({
-        message: error,
+        message: "Error fetching data",
         placement: "topRight",
       });
     }
@@ -113,7 +110,7 @@ function Catalog() {
                 className='pagination-collection'
                 total={totalPages}
                 current={current}
-                onChange={(page) => fetchData(store_name, page)}
+                onChange={(page) => getProducts(store_name, page)}
               />
             </>
           )}

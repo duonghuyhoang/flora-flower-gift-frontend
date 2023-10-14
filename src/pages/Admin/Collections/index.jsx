@@ -21,9 +21,9 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import "./Collections.scss";
+import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
-import axios from "axios";
-const URL_API = import.meta.env.VITE_API_URL;
+import { FetchApi } from "../../../api/FetchAPI";
 
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -59,6 +59,7 @@ const Collections = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [current, setCurrent] = useState(1);
   const page = 1;
+  const navigate = useNavigate();
   const [dataCreate, setDataCreate] = useState("");
   const [dataEdit, setDataEdit] = useState("");
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -73,65 +74,73 @@ const Collections = () => {
 
   useEffect(() => {
     if ((store_name, page)) {
-      fetchData(store_name, page);
+      getProducts(store_name, page);
     }
   }, []);
 
-  const fetchData = async (store_name, page) => {
+  const getProducts = async (store_name, page) => {
     setCurrent(page);
-    try {
-      const response = await axios.get(
-        `${URL_API}/products?store_name=${store_name}&page=${page}`
-      );
-      setData(response.data);
-      setTotalPages(response?.data.totalPages * 10);
-      setLoading(false);
-    } catch (error) {
+    if ((store_name, page)) {
+      const result = await FetchApi.getProducts(store_name, page);
+      if (result) {
+        setData(result);
+        setTotalPages(result?.totalPages * 10);
+        setLoading(false);
+        if (result.statusCode === 401) {
+          navigate("/auth/login");
+        }
+      }
+    } else {
       notification.error({
-        message: error,
+        message: "Error fetching data",
         placement: "topRight",
       });
     }
   };
-  const deleteData = async (product_ids) => {
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await axios.post(`${URL_API}/products/delete`, {
-        product_ids,
-      });
-      notification.success({
-        message: "Deleted successfully!!!",
-        placement: "topRight",
-      });
-      setSelectedRowKeys([]);
-      fetchData(store_name, page);
-    } catch (error) {
+  const deleteProducts = async (product_ids) => {
+    if (product_ids) {
+      const result = await FetchApi.deleteProducts(product_ids);
+      if (result) {
+        notification.success({
+          message: "Deleted successfully!!!",
+          placement: "topRight",
+        });
+        setSelectedRowKeys([]);
+        getProducts(store_name, page);
+        if (result.statusCode === 401) {
+          navigate("/auth/login");
+        }
+      }
+    } else {
       notification.error({
-        message: error,
+        message: "Error fetching data",
         placement: "topRight",
       });
     }
   };
-  const fetchDataProduct = async (product_id) => {
+  const getProduct = async (product_id) => {
     form2.resetFields();
-    try {
-      const response = await axios.get(`${URL_API}/products/${product_id}`);
-      setDataProduct(response.data);
+    if (product_id) {
+      const result = await FetchApi.getProduct(product_id);
+      setDataProduct(result);
       form2.setFieldsValue({
-        name: response.data.name,
-        description: response.data.description,
-        image_product1: response.data.image_product1,
-        image_product2: response.data.image_product2,
-        price_main: response.data.price_main,
-        price_sale: response.data.price_sale,
+        name: result.name,
+        description: result.description,
+        image_product1: result.image_product1,
+        image_product2: result.image_product2,
+        priceMain: result.price_main,
+        priceSale: result.price_sale,
       });
-      setImageUrl3(response.data.image_product1);
-      setImageUrl4(response.data.image_product2);
+      setImageUrl3(result.image_product1);
+      setImageUrl4(result.image_product2);
 
       setIsModalEditOpen(true);
-    } catch (error) {
+      if (result.statusCode === 401) {
+        navigate("/auth/login");
+      }
+    } else {
       notification.error({
-        message: error,
+        message: "Error fetching data",
         placement: "topRight",
       });
     }
@@ -141,13 +150,13 @@ const Collections = () => {
     setImageUrl1("");
     setImageUrl2("");
     form1.resetFields();
-    fetchData(store_name, page);
+    getProducts(store_name, page);
   };
   const resetForm2 = () => {
     setImageUrl3("");
     setImageUrl4("");
     form2.resetFields();
-    fetchData(store_name, page);
+    getProducts(store_name, page);
   };
 
   useEffect(() => {
@@ -166,68 +175,65 @@ const Collections = () => {
   }, []);
 
   useEffect(() => {
-    const postData = async () => {
-      try {
+    const createProduct = async (dataCreate) => {
+      if (dataCreate) {
         setLoadingBtn(true);
-        // eslint-disable-next-line no-unused-vars
-        const response = await axios.post(`${URL_API}/products`, {
-          dataCreate,
-        });
-
-        notification.success({
-          message: "Created successfully!!!",
-          placement: "topRight",
-        });
-
+        const result = await FetchApi.createProduct(dataCreate);
+        if (result) {
+          notification.success({
+            message: "Created successfully!!!",
+            placement: "topRight",
+          });
+        }
         setLoadingBtn(false);
         setIsModalCreateOpen(false);
         resetForm();
-      } catch (error) {
+        if (result.statusCode === 401) {
+          navigate("/auth/login");
+        }
+      } else {
         setLoadingBtn(false);
         notification.error({
-          message: error,
+          message: "Created failure!!!",
           placement: "topRight",
         });
       }
     };
 
     if (dataCreate) {
-      postData();
+      createProduct(dataCreate);
     }
   }, [dataCreate, isSubmitting]);
 
   useEffect(() => {
-    const editData = async () => {
-      try {
+    const editProduct = async (dataEdit, productId) => {
+      if ((dataEdit, productId)) {
         setLoadingBtn(true);
-        // eslint-disable-next-line no-unused-vars
-        const response = await axios.post(
-          `${URL_API}/edit-products/${productId}`,
-          {
-            dataEdit,
+        const result = await FetchApi.editProduct(dataEdit, productId);
+        if (result) {
+          notification.success({
+            message: "Edited successfully!!!",
+            placement: "topRight",
+          });
+          setLoadingBtn(false);
+          setIsModalEditOpen(false);
+          resetForm2();
+          getProducts(store_name, page);
+          if (result.statusCode === 401) {
+            navigate("/auth/login");
           }
-        );
-
-        notification.success({
-          message: "Edited successfully!!!",
-          placement: "topRight",
-        });
-
-        setLoadingBtn(false);
-        setIsModalEditOpen(false);
-        resetForm2();
-        fetchData(store_name, page);
-      } catch (error) {
-        setLoadingBtn(false);
-        notification.error({
-          message: error,
-          placement: "topRight",
-        });
+        } else {
+          setLoadingBtn(false);
+          notification.error({
+            message: "Edited failure!!!",
+            placement: "topRight",
+          });
+        }
       }
     };
 
-    if (dataEdit) {
-      editData();
+    if ((dataEdit, productId)) {
+      editProduct(dataEdit, productId);
     }
   }, [dataEdit, isSubmitting]);
 
@@ -276,7 +282,7 @@ const Collections = () => {
       price_sale: undefined,
     });
     setProductId(product_id);
-    fetchDataProduct(product_id);
+    getProduct(product_id);
   };
 
   const handleChangeimage1 = (info) => {
@@ -556,7 +562,8 @@ const Collections = () => {
     setIsModalEditOpen(false);
   };
   const handleDeleteProduct = () => {
-    deleteData(selectedProductIds);
+    const payload = { product_ids: selectedProductIds };
+    deleteProducts(payload);
   };
   const antIcon = (
     <LoadingOutlined
@@ -615,7 +622,7 @@ const Collections = () => {
           style={{ textAlign: "center", marginTop: "16px" }}
           total={totalPages}
           current={current}
-          onChange={(page) => fetchData(store_name, page)}
+          onChange={(page) => getProducts(store_name, page)}
         />
       </div>
       <div>
@@ -659,7 +666,7 @@ const Collections = () => {
                     listType='picture'
                     className='imageproduct-uploader'
                     showUploadList={false}
-                    action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                    action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
                     beforeUpload={beforeUpload}
                     onChange={handleChangeimage1}
                   >
@@ -688,7 +695,7 @@ const Collections = () => {
                     listType='picture'
                     className='imageproduct-uploader'
                     showUploadList={false}
-                    action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                    action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
                     beforeUpload={beforeUpload}
                     onChange={handleChangeimage2}
                   >
@@ -810,7 +817,7 @@ const Collections = () => {
                     listType='picture'
                     className='imageproduct-uploader'
                     showUploadList={false}
-                    action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                    action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
                     beforeUpload={beforeUpload}
                     onChange={handleChangeimage3}
                   >
@@ -839,7 +846,7 @@ const Collections = () => {
                     listType='picture'
                     className='imageproduct-uploader'
                     showUploadList={false}
-                    action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                    action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
                     beforeUpload={beforeUpload}
                     onChange={handleChangeimage4}
                   >
@@ -871,7 +878,7 @@ const Collections = () => {
             <div className='flex flex-wrap gap-12'>
               <Form.Item
                 label='Price main  ($)'
-                name='price_main'
+                name='priceMain'
                 className='form-item'
                 rules={[
                   {
@@ -888,7 +895,7 @@ const Collections = () => {
               </Form.Item>
               <Form.Item
                 label='Price sale  ($)'
-                name='price_sale'
+                name='priceSale'
                 className='form-item'
                 rules={[
                   {

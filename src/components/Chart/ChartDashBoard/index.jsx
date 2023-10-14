@@ -1,26 +1,27 @@
 import { Line } from "@ant-design/plots";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { notification } from "antd";
-const URL_API = import.meta.env.VITE_API_URL;
+import { useNavigate } from "react-router-dom";
+import { FetchApi } from "../../../api/FetchAPI";
 
 function ChartDashBoard(store_name) {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData(store_name);
+    getAnalysis(store_name);
   }, []);
 
-  const fetchData = async (store_name) => {
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await axios.post(`${URL_API}/analyze`, {
-        store_name,
-      });
-      setData(response.data.data);
-    } catch (error) {
+  const getAnalysis = async (store_name) => {
+    if (store_name) {
+      const result = await FetchApi.getAnalysis(store_name);
+      setData(result.data);
+      if (result.statusCode === 401) {
+        navigate("/auth/login");
+      }
+    } else {
       notification.error({
-        message: error,
+        message: "Error fetching analysis",
         placement: "topRight",
       });
     }

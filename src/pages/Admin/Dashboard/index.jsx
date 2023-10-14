@@ -11,7 +11,7 @@ function Dashboard() {
   const store_name = localStorage.getItem("store_name");
 
   return (
-    <div>
+    <div className='wrapper-dashboard'>
       <div className=' text-2xl text-gray-700 ml-6 font-semibold'>
         {" "}
         Dasboard

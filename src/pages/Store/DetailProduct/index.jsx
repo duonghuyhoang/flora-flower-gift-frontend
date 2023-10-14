@@ -4,9 +4,8 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../features/cart/cartSlice";
 import Pickup from "../../../components/Pickup";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { FetchApi } from "../../../api/FetchAPI";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Sale from "../../../components/Sale";
 import AddToCart from "../../../components/ButtonAddToCart";
 import DefaultLayoutStore from "../DefaultLayoutStore";
@@ -14,31 +13,27 @@ import ProductCardsLess from "./../../../components/ProductCardsLess";
 import { Spin, notification } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const URL_API = import.meta.env.VITE_API_URL;
-
 function DetailProduct() {
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const store_name = localStorage.getItem("store_name");
-
   const [data, setData] = useState([]);
   const page = 1;
   const navigate = useNavigate();
   const { name } = useParams();
   const dispatch = useDispatch();
 
-  const fetchData = async (store_name, page) => {
-    try {
-      const response = await axios.get(
-        `${URL_API}/products-store?store_name=${store_name}&page=${page}`
-      );
-      setData(response.data.data);
-
-      setLoading(false);
-    } catch (error) {
+  const getProducts = async (store_name, page) => {
+    if ((store_name, page)) {
+      const result = await FetchApi.getProductsByStore(store_name, page);
+      if (result) {
+        setData(result.data);
+        setLoading(false);
+      }
+    } else {
       notification.error({
-        message: error,
+        message: "Error fetching data",
         placement: "topRight",
       });
     }
@@ -46,7 +41,7 @@ function DetailProduct() {
   const product = data.find((product) => product.name === name);
   useEffect(() => {
     if ((store_name, page)) {
-      fetchData(store_name, page);
+      getProducts(store_name, page);
     }
   }, []);
   useEffect(() => {

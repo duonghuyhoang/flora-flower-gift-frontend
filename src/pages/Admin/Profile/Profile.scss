@@ -1,75 +1,62 @@
-
-  
+.wrapper-profile {
   .form-user {
-    background-position: bottom left,109% 68%,109% 68%,center,center;
+    background-position: bottom left, 109% 68%, 109% 68%, center, center;
     background-repeat: no-repeat;
-    background-size: 200% 200%,285% 500%,285% 500%,cover,cover;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.711),rgba(255, 255, 255, 0.87) 40%),radial-gradient(rgb(255, 209, 82) 30%,hsla(338,68%,65%,1),hsla(338, 67%, 80%, 0.974) 41%,transparent 52%),radial-gradient(rgb(183, 104, 253) 37%,transparent 46%),linear-gradient(155deg,transparent 65%,rgb(64, 210, 118) 95%),linear-gradient(45deg,rgb(135, 189, 255),rgb(78, 163, 243));
-  }
-  
-  
-  .avatar-uploader {
-    border: 1px solid #cdcdcd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 102px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #f4f4f4fd;
-    cursor: pointer;
- 
-     img {
+    background-size: 200% 200%, 285% 500%, 285% 500%, cover, cover;
+    background-image: radial-gradient(
+        rgba(255, 255, 255, 0.87),
+        rgba(255, 255, 255, 0.91) 60%
+      ),
+      radial-gradient(
+        rgb(255, 230, 153) 30%,
+        hsla(338, 68%, 70%, 1),
+        hsla(338, 67%, 85%, 0.974) 41%,
+        transparent 52%
+      ),
+      radial-gradient(rgb(200, 150, 255) 37%, transparent 46%),
+      linear-gradient(155deg, transparent 65%, rgb(110, 255, 160) 95%),
+      linear-gradient(45deg, rgb(173, 214, 255), rgb(123, 189, 243));
+
+    .form-item {
+      .ant-form-item-label {
+        font-weight: 400 !important;
+        @media (max-width: 575px) {
+          display: none;
+        }
+      }
+    }
+    .avatar-uploader {
+      border: 1px solid #cdcdcd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 102px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #f4f4f4fd;
+      cursor: pointer;
+
+      img {
         border-radius: 50%;
         width: 100%;
         height: 100%;
         object-fit: cover;
         object-position: center center;
+      }
+    }
+    .select-option {
+      margin-top: -15px;
+      .ant-select-selector {
+        border-color: #d9d9d9 !important;
+        height: 35px !important;
+        &:active {
+          border-color: #d9d9d9 !important;
+        }
+        .ant-select-selection-item {
+          color: #969696 !important;
+        }
+      }
+    }
   }
-  
-  }
-
-// .btn-submit-update {
-//   background-color:#1677ff !important;
-// }
-// .btn-submit-update:hover {
-//   color: #fff;
-//   background-color: #4096ff !important;
-
-// }
-
-.select-option {
-  margin-top: -15px;
- 
-  .ant-select-selector{
-    border-color: #d9d9d9 !important;
-    height: 35px !important;
-  &:active {
-    border-color: #d9d9d9 !important;
-  }
-.ant-select-selection-item {
-  color: #969696 !important;
-
-}
-
-
-}  
-
-}
-.form-item .ant-form-item-label {
-
- font-weight: 400 !important;
- 
-}
-@media screen and (max-width: 575px) {
-  .form-item .ant-form-item-label {
-    display: none;
-
-  }
-}
-
-.form-item .ant-form-item-label {
- font-weight: 500 !important;
-  
 }

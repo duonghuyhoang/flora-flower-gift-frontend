@@ -27,37 +27,42 @@ import {
 } from "antd";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../public/logo.svg";
-import axios from "axios";
-import "react-chat-widget/lib/styles.css";
+import { FetchApi } from "../../api/FetchAPI";
 const { Header, Sider, Content } = Layout;
 import { useMediaQuery } from "react-responsive";
-const URL_API = import.meta.env.VITE_API_URL;
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [data, setData] = useState();
-  const idUser = localStorage.getItem("id_user");
+  const userId = localStorage.getItem("user_id");
   const store_name = localStorage.getItem("store_name");
   const [isStoreEnabled, setStoreEnabled] = useState(false);
 
   useEffect(() => {
-    if (idUser) {
-      fetchUserData(idUser);
+    if (userId) {
+      getUserProfileData(userId);
     }
     if (store_name !== "null") {
       setStoreEnabled(true);
     }
   }, []);
 
-  const fetchUserData = async (idUser) => {
-    try {
-      const response = await axios.get(`${URL_API}/user-profile/${idUser}`);
-      setData(response.data);
-    } catch (error) {
-      notification.error({
-        message: "Error fetching user data",
-        placement: "topRight",
-      });
+  const getUserProfileData = async (userId) => {
+    if (userId) {
+      const result = await FetchApi.getUserProfile(userId);
+
+      if (result) {
+        setData(result);
+
+        if (result.statusCode === 401) {
+          navigate("/auth/login");
+        }
+      } else {
+        notification.error({
+          message: "Error fetching user data",
+          placement: "topRight",
+        });
+      }
     }
   };
 
@@ -217,7 +222,7 @@ const AdminLayout = () => {
                     marginRight: "28px",
                   }}
                 >
-                  <div className='hover:bg-slate-100  align-middle cursor-pointer  mr-3 text-xl w-[45px] h-[45px] text-slate-500 rounded-full'>
+                  <div className='hover:bg-slate-100   align-middle cursor-pointer  mr-3 text-xl w-[45px] h-[45px] text-slate-500 rounded-full'>
                     <BellOutlined />
                   </div>
                 </Badge>
@@ -225,7 +230,7 @@ const AdminLayout = () => {
               <Dropdown overlay={userMenu} placement='bottomRight'>
                 <Avatar
                   size={45}
-                  src={data ? data.avatar : ""}
+                  src={data ? data.imageUrl : ""}
                   style={{
                     cursor: "pointer",
                     marginTop: "-2px",

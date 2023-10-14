@@ -1,201 +1,225 @@
 .wrapper-contact {
-    background-color: #eff0f5;
-    height: 550px;
-    width: 100%;
-}
-.form-contact {
-    padding-left:10px ;
-    padding-right: 10px ;
+  background-color: #eff0f5;
+  height: 550px;
+  width: 100%;
+  .form-contact {
+    padding-left: 10px;
+    padding-right: 10px;
     padding-top: 30px;
     display: flex;
     flex-direction: column;
     gap: 50px;
     justify-content: center;
     align-items: flex-start;
-        max-width: 765px;
-       margin: auto;
-}
-.titlle-contact {
-    font-weight: 600;
-    
-    font-size: 57px;
-    color: #5a4e9f;
-}
-.wrapper-input {
-    display: flex;
-    flex-direction: column;
-    gap:20px
-}
-.wrapper-input-name-email {
-    display: flex;
-    gap: 20px;
-}
-.name-input, .email-input{
-    background-color: inherit;
-    border: 1px solid #686097;
-    color: #5a4e9f;
-    font-size: 1.1em;
-    width: 370px;
-    border-radius: 26px;
-    padding-top: 12px;
-    padding-left: 20px;
-    height: 48px;
-    outline: none;
-    &:hover {
-        border: 2px solid #5a4e9f;
+    max-width: 765px;
+    margin: auto;
+    .titlle-contact {
+      font-weight: 600;
+
+      font-size: 57px;
+      color: #5a4e9f;
     }
-    &:focus-visible{
-        border: 2px solid #5a4e9f !important;
-    }
-    &::placeholder {
+    .wrapper-input {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      .wrapper-input-name-email {
+        display: flex;
+        gap: 20px;
+        .name-input,
+        .email-input {
+          background-color: inherit;
+          border: 1px solid #686097;
+          color: #5a4e9f;
+          font-size: 1.1em;
+          width: 370px;
+          border-radius: 26px;
+          padding-top: 12px;
+          padding-left: 20px;
+          height: 48px;
+          outline: none;
+          &:hover {
+            border: 2px solid #5a4e9f;
+          }
+          &:focus-visible {
+            border: 2px solid #5a4e9f !important;
+          }
+          &::placeholder {
+            color: #5a4e9f;
+          }
+        }
+      }
+      .phone-input,
+      .comment-input {
+        width: 760px;
+        height: 48px;
+        border-radius: 26px;
+        background-color: inherit;
+        border: 1px solid #6d6693;
         color: #5a4e9f;
-  
-    }
-}
-.phone-input, .comment-input {
-    width: 760px;
-    height: 48px;
-    border-radius: 26px;
-    background-color: inherit;
-    border: 1px solid #6d6693;
-    color: #5a4e9f;
-    padding-left: 20px;
-    padding-top: 13px;
-    font-size: 1.2em;
-    outline: none;
-    &:hover {
-        border: 2px solid #5a4e9f;
-    }
-    &:focus-visible{
-        border: 2px solid #5a4e9f !important;
-    }
-    &::placeholder {
+        padding-left: 20px;
+        padding-top: 13px;
+        font-size: 1.2em;
+        outline: none;
+        &:hover {
+          border: 2px solid #5a4e9f;
+        }
+        &:focus-visible {
+          border: 2px solid #5a4e9f !important;
+        }
+        &::placeholder {
+          color: #5a4e9f;
+        }
+      }
+      .comment-input {
+        height: 105px;
+        padding-bottom: 60px;
+      }
+
+      .email-input-container,
+      .name-input-container,
+      .phone-input-container,
+      .comment-input-container {
+        position: relative;
+      }
+
+      .email-input-container label,
+      .name-input-container label,
+      .phone-input-container label,
+      .comment-input-container label {
+        position: absolute;
+        font-size: 1.2em;
+        left: 20px;
+        top: 13px;
+        transition: all 0.2s ease-in-out;
         color: #5a4e9f;
-  
+      }
+
+      .name-input-container input:focus + label,
+      .email-input-container input:focus + label,
+      .phone-input-container input:focus + label,
+      .comment-input-container input:focus + label,
+      .name-input-container label.active,
+      .email-input-container label.active,
+      .phone-input-container label.active,
+      .comment-input-container label.active {
+        top: 6px;
+
+        font-size: 11px;
+      }
+      @media screen and (max-width: 800px) {
+        .wrapper-input-name-email {
+          flex-direction: column;
+        }
+        .name-input,
+        .email-input {
+          width: 760px;
+        }
+        .wrapper-contact {
+          margin-bottom: 50px;
+        }
+      }
+      @media screen and (max-width: 800px) {
+        .wrapper-input-name-email {
+          flex-direction: column;
+        }
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 700px;
+        }
+      }
+      @media screen and (max-width: 720px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 650px;
+        }
+      }
+      @media screen and (max-width: 670px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 600px;
+        }
+      }
+      @media screen and (max-width: 620px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 550px;
+        }
+      }
+      @media screen and (max-width: 580px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 500px;
+        }
+      }
+      @media screen and (max-width: 520px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 480px;
+        }
+      }
+      @media screen and (max-width: 500px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 450px;
+        }
+      }
+      @media screen and (max-width: 480px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 420px;
+        }
+      }
+      @media screen and (max-width: 440px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 370px;
+        }
+      }
+      @media screen and (max-width: 400px) {
+        .name-input,
+        .email-input,
+        .phone-input,
+        .comment-input {
+          width: 350px;
+        }
+      }
     }
-}
-.comment-input  {
-    height: 105px;
-    padding-bottom: 60px;
-}
-.btn-send {
-    width: 126px;
-    border: none;
-    letter-spacing: 0.5px;
-    height: 48px;
-   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    border-radius: 42px;
-    font-size: 16px;
-    color:  #eff0f5;
-    background-color: #5a4e9f;
-    outline: none;
-    &:hover {
+    .btn-send {
+      width: 126px;
+      border: none;
+      letter-spacing: 0.5px;
+      height: 48px;
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+      border-radius: 42px;
+      font-size: 16px;
+      color: #eff0f5;
+      background-color: #5a4e9f;
+      outline: none;
+      &:hover {
         transform: scale(1.02);
         transition-duration: 50ms;
         transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+      }
     }
+  }
 }
-.email-input-container,
-.name-input-container,
-.phone-input-container,
-.comment-input-container {
-  position: relative;
-}
-
-.email-input-container label,
-.name-input-container label,
-.phone-input-container label,
-.comment-input-container label {
-  position: absolute;
-  font-size: 1.2em;
-  left: 20px;
-  top: 13px;
-  transition: all 0.2s ease-in-out;
-  color: #5a4e9f;
-}
-
-.name-input-container input:focus + label,
-.email-input-container input:focus + label,
-.phone-input-container input:focus + label,
-.comment-input-container input:focus + label,
-.name-input-container label.active,
-.email-input-container label.active,
-.phone-input-container label.active,
-.comment-input-container label.active {
-  top: 6px;
-
-  font-size: 11px;
-}
-@media screen and (max-width: 800px) {
-    .wrapper-input-name-email {
-       flex-direction: column;
-    }
-    .name-input, .email-input{
-      width: 760px;
-    }
-    .wrapper-contact {
-       margin-bottom: 50px;
-    }
-  }
-  @media screen and (max-width: 800px) {
-    .wrapper-input-name-email {
-       flex-direction: column;
-    }
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 700px;
-    }
-  }
-  @media screen and (max-width: 720px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 650px;
-    }
-  }
-  @media screen and (max-width: 670px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 600px;
-    }
-  }
-  @media screen and (max-width: 620px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 550px;
-    }
-  }
-  @media screen and (max-width: 580px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 500px;
-    }
-  }
-  @media screen and (max-width: 520px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 480px;
-    }
-  }
-  @media screen and (max-width: 500px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 450px;
-    }
-  }
-  @media screen and (max-width: 480px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 420px;
-    }
-  }
-  @media screen and (max-width: 440px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 370px;
-    }
-  }
-  @media screen and (max-width: 400px) {
-  
-    .name-input, .email-input, .phone-input, .comment-input {
-      width: 350px;
-    }
-  }

@@ -9,11 +9,11 @@ import {
   notification,
 } from "antd";
 import "./Profile.scss";
-import axios from "axios";
+import { FetchApi } from "../../../api/FetchAPI";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
-const URL_API = import.meta.env.VITE_API_URL;
 
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -31,48 +31,53 @@ function Profile() {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [imageUrl, setImageUrl] = useState();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [data, setData] = useState("");
-  const idUser = localStorage.getItem("id_user");
+  const userId = localStorage.getItem("user_id");
   const [userData, setUserData] = useState();
   const [userProfileData, setUserProfileData] = useState();
   const [completion, setCompletion] = useState(0);
   const [completedInputs, setCompletedInputs] = useState({});
 
   useEffect(() => {
-    if (idUser) {
-      fetchUserData(idUser);
+    if (userId) {
+      getUserProfileData(userId);
     }
   }, []);
+  useEffect(() => {
+    if (data) {
+      updateUserProfile(data);
+    }
+  }, [data, isSubmitting]);
 
-  const fetchUserData = async (idUser) => {
-    try {
-      const response = await axios.get(`${URL_API}/user/${idUser}`);
-      setUserData(response.data);
+  const getUserProfileData = async (userId) => {
+    if (userId) {
+      const result = await FetchApi.getUser(userId);
+      const profileResult = await FetchApi.getUserProfile(userId);
 
-      const profileResponse = await axios.get(
-        `${URL_API}/user-profile/${idUser}`
-      );
-      setUserProfileData(profileResponse.data);
+      if (result && profileResult) {
+        setUserData(result);
+        setUserProfileData(profileResult);
+        setLoadingData(false);
 
-      setLoadingData(false);
-    } catch (error) {
-      notification.error({
-        message: "Error fetching user data",
-        placement: "topRight",
-      });
+        if (profileResult.statusCode === 401 || result.statusCode === 401) {
+          navigate("/auth/login");
+        }
+      } else {
+        notification.error({
+          message: "Error fetching user data",
+          placement: "topRight",
+        });
+      }
     }
   };
+  const updateUserProfile = async (data) => {
+    if (data) {
+      const result = await FetchApi.updateUserProfile(data);
 
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        // eslint-disable-next-line no-unused-vars
-        const response = await axios.post(`${URL_API}/user-profiles`, {
-          data,
-        });
-
+      if (result) {
         notification.success({
           message: "Update successfully!!!",
           placement: "topRight",
@@ -80,18 +85,14 @@ function Profile() {
         setTimeout(() => {
           window.location.reload();
         }, 200);
-      } catch (error) {
+      } else {
         notification.error({
-          message: error,
+          message: result.message,
           placement: "topRight",
         });
       }
-    };
-
-    if (data) {
-      postData();
     }
-  }, [data, isSubmitting]);
+  };
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -147,7 +148,7 @@ function Profile() {
   }, []);
 
   const onFinish = (values) => {
-    const updatedValues = { ...values, imageUrl: imageUrl, id_user: idUser };
+    const updatedValues = { ...values, imageUrl: imageUrl, user_id: userId };
     setIsSubmitting(true);
     setData(updatedValues);
   };
@@ -194,13 +195,13 @@ function Profile() {
   }, [totalCount]);
 
   const onInputChange = () => {
-    const totalInputs = 11;
+    const totalInputs = 12;
     let inputCompletion;
     if (totalCount !== 0) {
       inputCompletion = Math.round(
         ((totalCount +
           (completedInputs ? Object.keys(completedInputs).length : 0) -
-          1) /
+          2) /
           totalInputs) *
           100
       );
@@ -240,7 +241,7 @@ function Profile() {
   return loadingData ? (
     <Spin className='loading' indicator={antIcon} />
   ) : (
-    <div>
+    <div className='wrapper-profile'>
       <div className='mt-4'>
         <div className='tracking-wide text-[#818ea3] text-[.625rem]'>
           OVERVIEW
@@ -258,14 +259,14 @@ function Profile() {
               listType='picture'
               className='avatar-uploader'
               showUploadList={false}
-              action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+              action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
               beforeUpload={beforeUpload}
               onChange={handleChange}
             >
               {imageUrl ? (
                 <img src={imageUrl} alt='avatar' />
-              ) : userProfileData.avatar !== null ? (
-                <img src={userProfileData.avatar} alt='avatar' />
+              ) : userProfileData.imageUrl !== null ? (
+                <img src={userProfileData.imageUrl} alt='avatar' />
               ) : (
                 uploadButton
               )}
@@ -375,26 +376,28 @@ function Profile() {
                 </div>
                 <div className='w-[100%] lg:pl-6'>
                   <Form.Item
-                    label='Password'
-                    name='password'
+                    label='Phone Number'
+                    name='phoneNumber'
                     rules={[
                       {
-                        min: 8,
-                        message: "Password must be at least 8 characters",
+                        required: true,
+                        message: "Please enter your phone number",
                       },
                       {
-                        pattern:
-                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                        pattern: /^[0-9]{10,12}$/,
                         message:
-                          "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                          "Phone number must be a valid 10-12 digit number",
                       },
                     ]}
                     labelCol={{ span: 0 }}
                     wrapperCol={{ span: 24 }}
                     className='form-item'
                   >
-                    <Input.Password
-                      placeholder={isSmallScreen ? "Password" : ""}
+                    <Input
+                      onChange={(event) =>
+                        handleInputChange(event, "phoneNumber")
+                      }
+                      placeholder={isSmallScreen ? "Phone Number" : ""}
                     />
                   </Form.Item>
                 </div>

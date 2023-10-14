@@ -4,8 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { resetLastAddedItem } from "../../features/cart/cartSlice";
 import "./Header.scss";
-
-import { Drawer, Button } from "antd";
+import { FetchApi } from "../../api/FetchAPI";
+import { Drawer, Button, notification } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
 function Header() {
@@ -22,11 +22,13 @@ function Header() {
   const [showNotification, setShowNotification] = useState(true);
   const [searching, setSearching] = useState(false);
   const headerRef = useRef(null);
+  const page = 1;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const itemsCart = useSelector((state) => state.cart.items);
   const itemCount = itemsCart.reduce((total, item) => total + item.quantity, 0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [products, setProducts] = useState(false);
   const lastAddedItem = useSelector((state) => state.cart.lastAddedItem);
   const notificationClass = document.querySelector(".notification");
   const [scrollClass, setScrollClass] = useState("");
@@ -34,7 +36,26 @@ function Header() {
     search: { isFocused: false, hasValue: false },
   });
 
-  const products = [];
+  useEffect(() => {
+    if ((store_name, page && searching === true)) {
+      getProducts(store_name, page);
+    }
+  }, [searching]);
+
+  const getProducts = async (store_name, page) => {
+    if ((store_name, page)) {
+      const result = await FetchApi.getProductsByStore(store_name, page);
+      if (result) {
+        setProducts(result.data);
+      }
+    } else {
+      notification.error({
+        message: "Error fetching data",
+        placement: "topRight",
+      });
+    }
+  };
+
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     if (currentScrollPos < prevScrollPos) {
@@ -123,12 +144,13 @@ function Header() {
     if (locationPart === `/store/${store_name}/home`) {
       setCurrent("");
     }
-    if (locationPart === `/store/${store_name}/catalog`) {
+    if (locationPart === `/store/${store_name}/collections`) {
       setCurrent("tmp-1");
     }
     if (locationPart === `/store/${store_name}/contact`) {
       setCurrent("tmp-2");
     }
+    document.body.classList.remove("no-scroll");
   }, [location]);
   const onClick = (event) => {
     setCurrent(event.key);
@@ -209,11 +231,13 @@ function Header() {
               <div
                 key={product.id}
                 className='search-result'
-                onClick={() => navigate(`/catalog/${product.name}`)}
+                onClick={() =>
+                  navigate(`/store/${store_name}/product/${product.name}`)
+                }
               >
                 <img
                   className='image-search'
-                  src={product.imageUrl1}
+                  src={product.image_product1}
                   alt={product.name}
                 />
                 <div className='name-search'>{product.name}</div>

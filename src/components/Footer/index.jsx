@@ -117,10 +117,10 @@ function Footer() {
       <div className='copyright'>
         <span className='copyrigth-caption'>© 2023,</span>
         <a href='' className='copyrigth-caption-link'>
-          floraflowergift-password: 123
+          Flora Flower Gift
         </a>
         <a href='' className='copyrigth-caption-link'>
-          Powered by Shopify
+          Powered by KingZ
         </a>
       </div>
     </Footer>
