@@ -143,6 +143,42 @@ const FetchApi = {
     const result = await CommonCall(api, header);
     return result;
   },
+  resetPasswordRequest: async (data) => {
+    const header = {
+      method: "POST",
+      body: JSON.stringify(data),
+    };
+    const api = Api.resetPasswordRequest;
+    const result = await CommonCall(api, header);
+    return result;
+  },
+  resetPasswordConfirm: async (data) => {
+    const header = {
+      method: "POST",
+      body: JSON.stringify(data),
+    };
+    const api = Api.resetPasswordConfirm;
+    const result = await CommonCall(api, header);
+    return result;
+  },
+  resetPassword: async (data) => {
+    const header = {
+      method: "POST",
+      body: JSON.stringify(data),
+    };
+    const api = Api.resetPassword;
+    const result = await CommonCall(api, header);
+    return result;
+  },
+  changePassword: async (data) => {
+    const header = {
+      method: "POST",
+      body: JSON.stringify(data),
+    };
+    const api = Api.changePassword;
+    const result = await CommonCall(api, header);
+    return result;
+  },
   getAnalysis: async (data) => {
     const header = {
       method: "POST",

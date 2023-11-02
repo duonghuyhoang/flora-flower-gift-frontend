@@ -11,6 +11,7 @@ import {
   MenuUnfoldOutlined,
   ShopOutlined,
   UserOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -102,6 +103,9 @@ const AdminLayout = () => {
   const handleGoToProfile = () => {
     navigate("/admin/profile");
   };
+  const handleGoToChangePassword = () => {
+    navigate("/admin/change-password");
+  };
   const handleLogout = () => {
     localStorage.clear();
 
@@ -126,11 +130,18 @@ const AdminLayout = () => {
   };
 
   const userMenu = (
-    <Menu style={{ width: "120px", textAlign: "center" }}>
+    <Menu style={{ width: "165px", textAlign: "left" }}>
       <Menu.Item key='1' icon={<UserOutlined />} onClick={handleGoToProfile}>
         Profile
       </Menu.Item>
-      <Menu.Item key='2' icon={<LogoutOutlined />} onClick={handleLogout}>
+      <Menu.Item
+        key='2'
+        icon={<LockOutlined />}
+        onClick={handleGoToChangePassword}
+      >
+        Change Password
+      </Menu.Item>
+      <Menu.Item key='3' icon={<LogoutOutlined />} onClick={handleLogout}>
         Logout
       </Menu.Item>
     </Menu>

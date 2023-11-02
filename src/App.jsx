@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import GuestLayout from "./components/GuestLayout";
 import Dashboard from "./pages/Admin/Dashboard";
 import Collections from "./pages/Admin/Collections";
+import ChangePassword from "./pages/Admin/ChangePsssword";
 import Profile from "./pages/Admin/Profile";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Signup";
@@ -14,6 +15,9 @@ import Home from "./pages/Store/Home";
 import { useEffect, useState } from "react";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import DemoStore from "./pages/Admin/DemoStore";
+import ResetPassword from "./pages/Auth/ForgotPassword/ResetPassword";
+import ResetPasswordConfirm from "./pages/Auth/ForgotPassword/ResetPasswordConfirm";
+import ResetPasswordRequest from "./pages/Auth/ForgotPassword/ResetPasswordRequest";
 import { useScrollToTop } from "./utils/hooks";
 import Contact from "./pages/Store/Contact";
 import Catalog from "./pages/Store/Catalog";
@@ -73,6 +77,16 @@ export default function App() {
             }
           />
           <Route
+            path='change-password'
+            element={
+              isAuthenticated ? (
+                <ChangePassword />
+              ) : (
+                <Navigate to='/auth/login' />
+              )
+            }
+          />
+          <Route
             path='demo-store'
             element={
               isAuthenticated ? <DemoStore /> : <Navigate to='/auth/login' />
@@ -92,6 +106,15 @@ export default function App() {
             element={<Login onLoginSuccess={handleLoginSuccess} />}
           />
           <Route path='register' element={<Register />} />
+          <Route path='reset-password' element={<ResetPassword />} />
+          <Route
+            path='reset-password-confirm'
+            element={<ResetPasswordConfirm />}
+          />
+          <Route
+            path='reset-password-request'
+            element={<ResetPasswordRequest />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

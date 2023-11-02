@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Button, Checkbox, Col, Form, Input, Row, message } from "antd";
 import { FetchApi } from "../../../api/FetchAPI";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
 import logo from "../../../../public/logo.svg";
@@ -98,7 +98,7 @@ function Login({ onLoginSuccess }) {
         {" "}
         <img src={logo} alt='logo' className=' w-[100px] h-[100px]' />
       </div>
-      <div className='title-form-login font-medium text-2xl text-center mt-[250px]'>
+      <div className='title-form-login text-[#5a4e9f] font-medium text-2xl text-center mt-[250px]'>
         Sign in to your account
       </div>
 
@@ -138,7 +138,7 @@ function Login({ onLoginSuccess }) {
           <Input
             size='large'
             placeholder='Email'
-            prefix={<UserOutlined />}
+            prefix={<MailOutlined />}
             autoComplete='email'
             className=' text-sm'
           />
@@ -185,9 +185,12 @@ function Login({ onLoginSuccess }) {
                 marginTop: "5px",
               }}
             >
-              <a className='link-forgot-password' href='#'>
+              <Link
+                className='text-[#48399f] hover:text-[#48399f]'
+                to={"/auth/reset-password-request"}
+              >
                 Forgot your password?
-              </a>
+              </Link>
             </Col>
           </Row>
         </Form.Item>

@@ -252,7 +252,7 @@ function Profile() {
       </div>
       <div className='flex lg:flex-row flex-col gap-10 '>
         {" "}
-        <div className='card-profile min-h-[500px] h-full max-w-[100%] lg:max-w-[490px] form-user rounded-xl mt-10 '>
+        <div className='card-profile min-h-[500px] h-full max-w-[100%] lg:max-w-[490px] form-user rounded-lg mt-10 '>
           <div className='flex justify-center items-center pt-10'>
             <Upload
               name='avatar'
@@ -283,7 +283,7 @@ function Profile() {
             <div className='mt-1'>
               <Progress
                 percent={completion}
-                status={completion === 100 ? "success" : "active"}
+                status={completion == 100 ? "success" : "active"}
               />
             </div>
           </div>
@@ -296,7 +296,7 @@ function Profile() {
             </div>
           </div>
         </div>{" "}
-        <div className='card-edit  max-h-850px]   sm:max-w-[2500px] w-[100%] form-user rounded-xl mt-10 '>
+        <div className='card-edit  max-h-850px]   sm:max-w-[2500px] w-[100%] form-user rounded-lg mt-10 '>
           <div className='p-4 border-b-[1px] border-[#e1e5eb] font-medium text-base text-[#3d5170]'>
             Account Details
           </div>

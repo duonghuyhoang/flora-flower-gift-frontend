@@ -3,6 +3,10 @@ const URL_API = import.meta.env.VITE_API_URL;
 const Api = {
   login: URL_API + "auth/login",
   register: URL_API + "auth/register",
+  resetPasswordRequest: URL_API + "auth/reset-password-request",
+  resetPasswordConfirm: URL_API + "auth/reset-password-confirm",
+  resetPassword: URL_API + "auth/reset-password",
+  changePassword: URL_API + "auth/change-password",
   updateUserProfile: URL_API + "user-profiles",
   getAnalysis: URL_API + "products/analyze",
   getUserProfile: (id) => `${URL_API}user-profiles/${id}`,

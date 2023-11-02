@@ -1,7 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Button, Col, Form, Input, Row, message } from "antd";
 import { FetchApi } from "../../../api/FetchAPI";
-import { LockOutlined, UserOutlined, ShopOutlined } from "@ant-design/icons";
+import {
+  LockOutlined,
+  UserOutlined,
+  ShopOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 import { Link, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../../../../public/logo.svg";
@@ -64,11 +69,11 @@ function Register() {
 
   return (
     <div className='container-form-login flex flex-col justify-center items-center '>
-      <div className='absolute mt-[-380px]'>
+      <div className='absolute mt-[-450px]'>
         {" "}
         <img src={logo} alt='logo' className='  w-[100px] h-[100px]' />
       </div>
-      <div className='title-form-login font-medium text-2xl text-center mt-[250px]'>
+      <div className='title-form-login text-[#5a4e9f] font-medium text-2xl text-center mt-[250px]'>
         Register a new account
       </div>
 
@@ -183,7 +188,7 @@ function Register() {
           <Input
             size='large'
             placeholder='Email'
-            prefix={<UserOutlined />}
+            prefix={<MailOutlined />}
             autoComplete='email'
             className='text-sm'
           />
@@ -233,8 +238,8 @@ function Register() {
         </Form.Item>
       </Form>
       <div className=' text-sm'>
-        Already have an account{" "}
-        <Link className='text-[#4096ff] ' to={"/auth/login"}>
+        Already signed up?{" "}
+        <Link className='text-[#48399f] ' to={"/auth/login"}>
           Login now
         </Link>
       </div>
