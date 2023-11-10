@@ -17,6 +17,13 @@
     border-inline-end-width: 1px;
     z-index: 1;
   }
+  :where(.css-dev-only-do-not-override-txh9fw).ant-checkbox-checked:after {
+    border: 2px solid #5648a5 !important;
+  }
+  .ant-checkbox-input:checked:hover > .css-dev-only-do-not-override-txh9fw {
+    border-color: #5648a5 !important;
+  }
+
   :where(.css-dev-only-do-not-override-txh9fw).ant-input-affix-wrapper-focused,
   :where(.css-dev-only-do-not-override-txh9fw).ant-input-affix-wrapper:focus {
     z-index: 1;

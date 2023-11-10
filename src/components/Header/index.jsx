@@ -323,7 +323,7 @@ function Header() {
             />
 
             <div className='icon-header'>
-              <a href='/' className=''>
+              <a href='' className=''>
                 <div className='logo-header'></div>
               </a>
             </div>

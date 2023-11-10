@@ -19,6 +19,9 @@ body {
   background-color: #d1d0e4;
   color: inherit;
 }
+.no-scroll {
+  overflow: hidden;
+}
 
 .ant-layout-content {
   margin-top: -4px;
