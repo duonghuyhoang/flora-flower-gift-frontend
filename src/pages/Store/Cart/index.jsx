@@ -53,6 +53,10 @@ function Cart() {
   const handleToCatalog = () => {
     navigate(`/store/${store_name}/collections`);
   };
+
+  const handleToCheckOut = () => {
+    navigate(`/checkouts`);
+  };
   function handleIncreaseQuantity(productId) {
     dispatch(increaseQuantity(productId));
   }
@@ -202,7 +206,12 @@ function Cart() {
                       <Pickup />
                     </div>
 
-                    <button className='btn-go-to-check-out'>Check out</button>
+                    <button
+                      className='btn-go-to-check-out'
+                      onClick={() => handleToCheckOut()}
+                    >
+                      Check out
+                    </button>
                   </div>
                   <div className='featured-collection'>Featured collection</div>
                   <div>

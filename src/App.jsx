@@ -21,6 +21,7 @@ import ResetPasswordRequest from "./pages/Auth/ForgotPassword/ResetPasswordReque
 import { useScrollToTop } from "./utils/hooks";
 import Contact from "./pages/Store/Contact";
 import Catalog from "./pages/Store/Catalog";
+import CheckOut from "./pages/Store/Checkout";
 import DetailProduct from "./pages/Store/DetailProduct";
 import Cart from "./pages/Store/Cart";
 
@@ -116,6 +117,7 @@ export default function App() {
             element={<ResetPasswordRequest />}
           />
         </Route>
+        <Route path='/checkouts' element={<CheckOut />}></Route>
       </Routes>
     </BrowserRouter>
   );

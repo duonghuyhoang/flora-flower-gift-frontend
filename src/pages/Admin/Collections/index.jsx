@@ -11,6 +11,7 @@ import {
   notification,
   Spin,
   Pagination,
+  Popconfirm,
 } from "antd";
 
 import {
@@ -67,7 +68,7 @@ const Collections = () => {
   const [productId, setProductId] = useState();
   const [form1] = Form.useForm();
   const [form2] = Form.useForm();
-
+  console.log(isDeleteButtonEnabled);
   useEffect(() => {
     setFilteredPosts(data.data);
   }, [data]);
@@ -106,6 +107,7 @@ const Collections = () => {
           placement: "topRight",
         });
         setSelectedRowKeys([]);
+        setIsDeleteButtonEnabled(false);
         getProducts(store_name, page);
         if (result.statusCode === 401) {
           navigate("/auth/login");
@@ -558,12 +560,18 @@ const Collections = () => {
   const handleNewProduct = () => {
     setIsModalCreateOpen(true);
   };
-  const handleClosemodalEdit = () => {
+  const handleCloseModalEdit = () => {
     setIsModalEditOpen(false);
   };
   const handleDeleteProduct = () => {
     const payload = { product_ids: selectedProductIds };
     deleteProducts(payload);
+  };
+  const confirmDelete = () => {
+    handleDeleteProduct();
+  };
+  const cancelDelete = () => {
+    setSelectedRowKeys([]);
   };
   const antIcon = (
     <LoadingOutlined
@@ -588,12 +596,23 @@ const Collections = () => {
           prefix={<SearchOutlined className='icon-search' />}
         />
         <div className='flex justify-center items-center gap-20 flex-wrap'>
-          <Button
-            className={`btn-delete ${isDeleteButtonEnabled ? "" : "disabled"}`}
-            onClick={handleDeleteProduct}
+          <Popconfirm
+            title='Delete the products'
+            description='Are you sure to delete this products?'
+            onConfirm={confirmDelete}
+            onCancel={cancelDelete}
+            okText='Yes'
+            cancelText='No'
             disabled={!isDeleteButtonEnabled}
-            icon={<DeleteOutlined className='icon-delete' />}
-          ></Button>
+          >
+            <Button
+              className={`btn-delete ${
+                isDeleteButtonEnabled ? "" : "disabled"
+              }`}
+              disabled={!isDeleteButtonEnabled}
+              icon={<DeleteOutlined className='icon-delete' />}
+            ></Button>
+          </Popconfirm>
 
           <Button
             type='primary'
@@ -775,7 +794,7 @@ const Collections = () => {
         <Modal
           title='Edit Product'
           visible={isModalEditOpen}
-          onCancel={handleClosemodalEdit}
+          onCancel={handleCloseModalEdit}
           footer={null}
           centered={true}
           maskClosable={false}
